@@ -2,7 +2,8 @@ import React from 'react'
 import Sidebar from './Sidebar'
 import Navbar from './Navbar'
 import Footer from './Footer'
-import Dashboard from '../pages/Dashboard'
+// import Dashboard from '../pages/Dashboard'
+import { Outlet } from 'react-router-dom'
 
 function Layout() {
     return (
@@ -26,7 +27,7 @@ function Layout() {
                         {/* <!-- Content wrapper --> */}
                         <div className="content-wrapper">
                             {/* <!-- Content --> */}
-                                <Dashboard />
+                                <Outlet  />
                             {/* <!-- / Content --> */}
 
                             {/* <!-- Footer --> */}
