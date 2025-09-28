@@ -114,9 +114,12 @@ function ManagePosts() {
                                         <td>
                                             <div className='d-flex'>
 
-                                                <button type="button" className="btn btn-icon btn-outline-primary me-2">
+                                                <Link to={`/posts/details/${item.id}`} type="button" className="btn btn-icon btn-outline-primary me-2">
+                                                    <span className="bx  bx-search"></span>
+                                                </Link>
+                                                <Link to={`/posts/edit/${item.id}`} type="button" className="btn btn-icon btn-outline-primary me-2">
                                                     <span className="tf-icons bx bx-edit"></span>
-                                                </button>
+                                                </Link>
                                                 <button type="button" className="btn btn-icon btn-outline-danger">
                                                     <span className="tf-icons bx bx-trash"></span>
                                                 </button>
