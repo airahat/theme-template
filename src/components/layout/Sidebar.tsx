@@ -65,6 +65,13 @@ function Sidebar() {
               <div data-i18n="Analytics">Posts</div>
           </li>
             </NavLink>
+          {/* <!-- Products --> */}
+            <NavLink to="/roles" className="menu-item">
+          <li className="menu-link ">
+              <i className='bx  bx-book-open'  ></i>  
+              <div data-i18n="Analytics">Roles</div>
+          </li>
+            </NavLink>
 
           {/* <!-- Layouts --> */}
           <li className="menu-item">

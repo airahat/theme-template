@@ -1,72 +1,51 @@
-import React, { useEffect, useState } from 'react'
-
-import axios from 'axios';
+import React, {useEffect, useState} from 'react';
 import { Link } from 'react-router-dom';
+import api from '../../../config';
 
-interface Post {
-
-    userId: number;
-    id: number;
-    title: string;
-    body: string;
-
+export interface Users {
+    id: number,
+    name: string,
+    email: string,
+    role: string,
+    address: string,
+    photo: null
 }
-// type Post = {
-
-//     userId: number;
-//     id: number;
-//     title:string;
-//     body: string;
-
-// }
 
 
-function ManagePosts() {
 
-    let [posts, setPosts] = useState<Post[]>([]);
-
+function MnageUsers() {
+    // const [users, setUsers] = useState([])
+    const [users, setUsers] = useState<Users[]>([])
 
     useEffect(() => {
-
-        document.title = "Manage Post"
-        getData();
+        document.title = "Manage Users"
+        getUsers();
     }, [])
-    useEffect(() => {
-        console.log(posts)
-    }, [posts])
 
-    // async function getData() {
 
-    //     try {
-    //         const res = await fetch("https://jsonplaceholder.typicode.com/posts")
-    //         const data = await res.json();
-    //         console.log(data)
-    //         setPosts(data)
-    //     }
-    //     catch (err) {
-    //         console.error(err)
-    //     }
-    // }
+    function getUsers() {
 
-    // Axios structure
-    function getData() {
-        axios.get("https://jsonplaceholder.typicode.com/posts")
+        api.get("users")
             .then((res) => {
-                // console.log(res.data);
-                setPosts(res.data)
+                // console.log(res.data)
+                setUsers(res.data)
+                // console.log(roles)
             })
-
             .catch((err) => {
 
                 console.error(err)
 
             })
+
+
     }
+
+
 
 const handleDelete=(id:Number)=>{
     console.log(id+"Confirmed Delete")
 
-    axios.delete(`https://jsonplaceholder.typicode.com/posts/${id}`)
+    api.delete(`http://localhost/php_react-api/api/users/${id}`)
         .then((res)=>{
             console.log(res)
         })
@@ -77,12 +56,14 @@ const handleDelete=(id:Number)=>{
 }
 
 
-    return (
+
+
+  return (
         <>
             <div className="container-xxl flex-grow-1 container-p-y">
-                <h4 className="fw-bold py-3 mb-4"><span className="text-muted fw-light">Dashboard /</span> Posts</h4>
+                <h4 className="fw-bold py-3 mb-4"><span className="text-muted fw-light">Dashboard /</span> Users</h4>
 
-                <Link to="/posts/add" className='btn btn-outline-primary'> Add New</Link>
+                <Link to="/users/create" className='btn btn-outline-primary'> Add New User</Link>
 
                 <div className="card">
 
@@ -92,9 +73,10 @@ const handleDelete=(id:Number)=>{
                             <thead>
                                 <tr>
                                     <th>ID</th>
-                                    <th>User ID</th>
-                                    <th>Title</th>
-                                    <th>Body</th>
+                                    <th>Name</th>
+                                    <th>Email</th>
+                                    <th>Address</th>
+                                    <th>Role</th>
                                     <th>Action</th>
                                 </tr>
                             </thead>
@@ -116,12 +98,13 @@ const handleDelete=(id:Number)=>{
                                         </div>
                                     </td>
                                 </tr> */}
-                                {posts.map((item) => (
+                                {users.map((item) => (
                                     <tr key={item.id}>
                                         <td>{item.id}</td>
-                                        <td>{item.userId}</td>
-                                        <td>{item.title}</td>
-                                        <td>{item.body}</td>
+                                        <td>{item.name}</td>
+                                        <td>{item.email}</td>
+                                        <td>{item.address}</td>
+                                        <td>{item.role}</td>
                                         <td>
                                             <div className='d-flex'>
 
@@ -131,7 +114,7 @@ const handleDelete=(id:Number)=>{
                                                 <Link to={`/posts/edit/${item.id}`} type="button" className="btn btn-icon btn-outline-primary me-2">
                                                     <span className="tf-icons bx bx-edit"></span>
                                                 </Link>
-                                                <button type="button" onClick={()=>{confirm("Are you sure to delete?") && handleDelete(item.id)}} className="btn btn-icon btn-outline-danger">
+                                                <button type="button" onClick={()=>{confirm("Are you sure to delete?") && handleDelete(item.id)}}  className="btn btn-icon btn-outline-danger">
                                                     <span className="tf-icons bx bx-trash"></span>
                                                 </button>
                                             </div>
@@ -151,7 +134,7 @@ const handleDelete=(id:Number)=>{
             </div>
 
         </>
-    )
+  )
 }
 
-export default ManagePosts
+export default MnageUsers
