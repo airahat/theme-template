@@ -2,20 +2,21 @@ import React, {useEffect, useState} from 'react';
 import { Link } from 'react-router-dom';
 import api from '../../../config';
 
-export interface Users {
-    id: number,
-    name: string,
-    email: string,
-    role: string,
-    address: string,
-    photo: null
+export interface User {
+    id?: number,
+    name?: string,
+    email?: string,
+    role?: string,
+    role_id: number,
+    address?: string,
+    photo?: File | null
 }
 
 
 
 function MnageUsers() {
     // const [users, setUsers] = useState([])
-    const [users, setUsers] = useState<Users[]>([])
+    const [users, setUsers] = useState<User[]>([])
 
     useEffect(() => {
         document.title = "Manage Users"
@@ -114,7 +115,7 @@ const handleDelete=(id:Number)=>{
                                                 <Link to={`/posts/edit/${item.id}`} type="button" className="btn btn-icon btn-outline-primary me-2">
                                                     <span className="tf-icons bx bx-edit"></span>
                                                 </Link>
-                                                <button type="button" onClick={()=>{confirm("Are you sure to delete?") && handleDelete(item.id)}}  className="btn btn-icon btn-outline-danger">
+                                                <button type="button" onClick={()=>{confirm("Are you sure to delete?") }}  className="btn btn-icon btn-outline-danger">
                                                     <span className="tf-icons bx bx-trash"></span>
                                                 </button>
                                             </div>
