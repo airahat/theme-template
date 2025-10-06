@@ -1,9 +1,9 @@
-import React, {useEffect, useState} from 'react';
+import React, { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
 import api from '../../../config';
 
 export interface User {
-    id?: number,
+    id: number,
     name?: string,
     email?: string,
     role?: string,
@@ -17,6 +17,7 @@ export interface User {
 function MnageUsers() {
     // const [users, setUsers] = useState([])
     const [users, setUsers] = useState<User[]>([])
+    const [userId, setUserId] = useState<number>()
 
     useEffect(() => {
         document.title = "Manage Users"
@@ -43,23 +44,39 @@ function MnageUsers() {
 
 
 
-const handleDelete=(id:Number)=>{
-    console.log(id+"Confirmed Delete")
+    const handleModal = (id: any) => {
+        console.log(id + "Confirmed Delete")
+        setUserId(id)
+        // api.delete(`http://localhost/php_react-api/api/users/${id}`)
+        //     .then((res)=>{
+        //         console.log(res)
+        //     })
+        //     .catch((err)=>{
+        //         console.error(err)
+        //     })
 
-    api.delete(`http://localhost/php_react-api/api/users/${id}`)
+    }
+
+    const handleDelete = (id: any) => {
+
+        api.delete(`delete-user?id=${id}`)
         .then((res)=>{
-            console.log(res)
+            console.log(res);
+            getUsers();
         })
+
         .catch((err)=>{
             console.error(err)
         })
 
-}
 
 
 
+    }
 
-  return (
+
+
+    return (
         <>
             <div className="container-xxl flex-grow-1 container-p-y">
                 <h4 className="fw-bold py-3 mb-4"><span className="text-muted fw-light">Dashboard /</span> Users</h4>
@@ -115,12 +132,20 @@ const handleDelete=(id:Number)=>{
                                                 <Link to={`/posts/edit/${item.id}`} type="button" className="btn btn-icon btn-outline-primary me-2">
                                                     <span className="tf-icons bx bx-edit"></span>
                                                 </Link>
-                                                <button type="button" onClick={()=>{confirm("Are you sure to delete?") }}  className="btn btn-icon btn-outline-danger">
+                                                <button type="button" data-bs-toggle="modal" data-bs-target="#deleteModal" onClick={() => handleModal(item.id)} className="btn btn-icon btn-outline-danger">
                                                     <span className="tf-icons bx bx-trash"></span>
                                                 </button>
+
+
                                             </div>
                                         </td>
                                     </tr>
+
+
+
+
+
+
                                 ))}
                             </tbody>
 
@@ -134,8 +159,29 @@ const handleDelete=(id:Number)=>{
 
             </div>
 
+
+
+            <div className="modal fade" id="deleteModal" tabIndex={-1}>
+                <div className="modal-dialog">
+                    <div className="modal-content">
+                        <div className="modal-header">
+                            <h5 className="modal-title" id="deleteModalLabel">Confirm Deletion</h5>
+                            <button type="button" className="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                        </div>
+                        <div className="modal-body">
+                            Are you sure you want to delete {userId}?
+                        </div>
+                        <div className="modal-footer">
+                            <button type="button" className="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+                            <button type="button" className="btn btn-danger" data-bs-dismiss="modal" id="confirmDeleteBtn" onClick={() => handleDelete(userId)}>Delete</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+
         </>
-  )
+    )
 }
 
 export default MnageUsers
